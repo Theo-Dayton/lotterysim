@@ -1,0 +1,121 @@
+<html>
+<head>
+    <title>Lottery Sim</title>
+    <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+    <h1>Lottery Sim:</h1>
+    <button onclick="sitePrompt()">Try your luck!</button>
+    <h2>Your 5 numbers:</h2>
+    <p id="numPicked"></p>
+    <h2>Your lucky ball number:</h2>
+    <p id="luckyPicked"></p>
+    <h2>Winning numbers:</h2>
+    <p id="winning"></p>
+    <h2>Lucky ball number:</h2>
+    <p id="luckyNum"></p>
+    <h2>Matching numbers:</h2>
+    <p id="matching"></p>
+    <h2>Lucky ball matched?</h2>
+    <p id="lucky"></p>
+    <h2>Payout:</h2>
+    <p id="payoutAmount"></p>
+    <script>
+    function sitePrompt() {
+    let num1 = Math.round(Math.random()*48);
+    let num2 = Math.round(Math.random()*48);
+    let num3 = Math.round(Math.random()*48);
+    let num4 = Math.round(Math.random()*48);
+    let num5 = Math.round(Math.random()*48);
+    let lucky = 6;
+    
+    let lotteryNums = [num1, num2, num3, num4, num5];
+    lotteryNums = lotteryNums.sort();
+    
+    let userNums = prompt("Enter the first 5 winning numbers:", "");
+    let userLucky = prompt("Enter the lucky ball number:", "");
+    
+    let numArr = userNums.split(' ');
+    numArr = numArr.sort();
+
+    for (let i = 0; i < 5; i++) {
+        document.getElementById("numPicked").innerHTML += numArr[i] + " ";
+    }
+
+    document.getElementById("luckyPicked").innerHTML += userLucky;
+    
+    let payout = 0;
+    let matches = 0;
+    let luckyFlag = false;
+    
+    for (let i = 0; i < 5; i++) {
+        if (lotteryNums.includes(parseInt(userNums[i*2]))) {
+            matches++;
+        }
+    }
+
+    for (let i = 0; i < 5; i++) {
+        document.getElementById("winning").innerHTML += lotteryNums[i] + " ";
+    }
+
+    document.getElementById("matching").innerHTML = matches;
+
+    document.getElementById("luckyNum").innerHTML = lucky;
+    
+    if (lucky == userLucky) {
+        luckyFlag = true;
+        document.getElementById("lucky").innerHTML = "Yes!";
+    }
+    else {
+        document.getElementById("lucky").innerHTML = "No...";
+    }
+
+    if (luckyFlag) {
+        if (matches == 0) {
+            payout = 4;
+        }
+        else if (matches == 1) {
+            payout = 6;
+        }
+        else if (matches == 2) {
+            payout = 25;
+        }
+        else if (matches == 3) {
+            payout = 150;
+        }
+        else if (matches == 4) {
+            payout = 5000;
+        }
+        else if (matches == 5) {
+            payout = 7000;
+        }
+    }
+    else {
+        if (matches == 2) {
+            payout = 3;
+        }
+        else if (matches == 3) {
+            payout = 20;
+        }
+        else if (matches == 4) {
+            payout = 200;
+        }
+        else if (matches == 5) {
+            payout = 25000;
+        }
+    }
+
+    if (payout == 7000) {
+        document.getElementById("payoutAmount").innerHTML = "$" + payout + " a WEEK for LIFE";
+    }
+    else if (payout == 25000) {
+        document.getElementById("payoutAmount").innerHTML = "$" + payout + " a YEAR for LIFE";
+    }
+    else {
+        document.getElementById("payoutAmount").innerHTML = "$" + payout;
+    }
+
+};
+    </script>
+</body>
+</html>
